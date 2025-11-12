@@ -4,12 +4,11 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import (
-    NoSuchElementException, ElementClickInterceptedException, WebDriverException
-)
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+from waitress import serve
+
 
 app = Flask(__name__)
 
@@ -51,7 +50,7 @@ def is_date_available(driver):
         return False
 
 # ---------- FLASK ROUTE ----------
-@app.route("/check")
+@app.route("/checkPrisma")
 def check_exam_date():
     driver = make_driver()
     driver.get(URL)
@@ -65,4 +64,4 @@ def check_exam_date():
         driver.quit()
         return "⏳ No date available."
 
-app.run(host="0.0.0.0", port=8080)
+serve(app, host="0.0.0.0", port=8080)
